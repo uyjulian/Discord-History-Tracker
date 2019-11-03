@@ -108,7 +108,10 @@ var DISCORD = (function(){
             "server": name,
             "channel": name,
             "id": link,
-            "type": (icon && icon.src.includes("/channel-icons/")) ? "GROUP" : "DM"
+            "type": (icon && icon.src.includes("/channel-icons/")) ? "GROUP" : "DM",
+            "topic": "",
+            "nsfw": false,
+            "position": 0
           };
         }
         else{
@@ -131,7 +134,10 @@ var DISCORD = (function(){
             "server": channelListEle.querySelector("header > h1").innerText,
             "channel": channelObj.name,
             "id": channelObj.id,
-            "type": "SERVER"
+            "type": "SERVER",
+            "topic": channelObj.topic,
+            "nsfw": channelObj.nsfw,
+            "position": channelObj.position
           };
         }
         

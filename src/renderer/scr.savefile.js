@@ -32,7 +32,11 @@ class SAVEFILE{
   }
 
   getUser(index){
-    return this.meta.users[this.meta.userindex[index]] || { "name": "&lt;unknown&gt;" };
+    var obj_user = this.meta.users[this.meta.userindex[index]];
+    obj_user.id = Object.keys(this.meta.users)[index];
+    if (obj_user.nick == null)
+      obj_user.nick = obj_user.name;
+    return obj_user;
   }
 
   getUserById(user){

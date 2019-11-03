@@ -102,10 +102,13 @@ class SAVEFILE{
     return parsedObj && typeof parsedObj.meta === "object" && typeof parsedObj.data === "object";
   }
   
-  findOrRegisterUser(userId, userName){
+  findOrRegisterUser(userId, userName, avatar, nickName, discriminator){
     if (!(userId in this.meta.users)){
       this.meta.users[userId] = {
-        "name": userName
+        "name": userName,
+        "avatar": avatar,
+        "nick": nickName,
+        "discriminator": discriminator
       };
       
       this.meta.userindex.push(userId);
@@ -135,7 +138,7 @@ class SAVEFILE{
     }
   }
   
-  tryRegisterChannel(serverIndex, channelId, channelName){
+  tryRegisterChannel(serverIndex, channelId, channelName, channelTopic, channelNSFW, channelPosition){
     if (!this.meta.servers[serverIndex]){
       return undefined;
     }
@@ -145,7 +148,10 @@ class SAVEFILE{
     else{
       this.meta.channels[channelId] = {
         "server": serverIndex,
-        "name": channelName
+        "name": channelName,
+        "topic": channelTopic,
+        "nsfw": channelNSFW,
+        "position": channelPosition
       };
       
       this.tmp.channelkeys.add(channelId);
@@ -164,7 +170,7 @@ class SAVEFILE{
   
   convertToMessageObject(discordMessage){
     var obj = {
-      u: this.findOrRegisterUser(discordMessage.author.id, discordMessage.author.username),
+      u: this.findOrRegisterUser(discordMessage.author.id, discordMessage.author.username, discordMessage.author.avatar, discordMessage.nick, discordMessage.author.discriminator),
       t: discordMessage.timestamp.toDate().getTime()
     };
     
@@ -236,12 +242,12 @@ class SAVEFILE{
     var shownError = false;
     
     for(var userId in obj.meta.users){
-      userMap[obj.meta.userindex.findIndex(id => id == userId)] = this.findOrRegisterUser(userId, obj.meta.users[userId].name);
+      userMap[obj.meta.userindex.findIndex(id => id == userId)] = this.findOrRegisterUser(userId, obj.meta.users[userId].name, obj.meta.users[userId].avatar, obj.meta.users[userId].nick, obj.meta.users[userId].discriminator);
     }
     
     for(var channelId in obj.meta.channels){
       var oldServer = obj.meta.servers[obj.meta.channels[channelId].server];
-      this.tryRegisterChannel(this.findOrRegisterServer(oldServer.name, oldServer.type), channelId, obj.meta.channels[channelId].name);
+      this.tryRegisterChannel(this.findOrRegisterServer(oldServer.name, oldServer.type), channelId, obj.meta.channels[channelId].name, obj.meta.channels[channelId].topic, obj.meta.channels[channelId].nsfw, obj.meta.channels[channelId].position);
     }
     
     for(var channelId in obj.data){
