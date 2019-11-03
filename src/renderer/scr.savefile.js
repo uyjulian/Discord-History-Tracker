@@ -32,15 +32,11 @@ class SAVEFILE{
   }
 
   getUser(index){
-    var obj_user = this.meta.users[this.meta.userindex[index]];
-    obj_user.id = Object.keys(this.meta.users)[index];
-    if (obj_user.nick == null)
-      obj_user.nick = obj_user.name;
-    return obj_user;
+    return this.meta.users[this.meta.userindex[index]] || { "id": 0, "name": "&lt;unknown&gt;", "nick": "&lt;unknown&gt;", "avatar": "", "discriminator": "0000" };
   }
 
   getUserById(user){
-    return this.meta.users[user] || { "name": user };
+    return this.meta.users[user] || { "id": 0, "name": user, "nick": user, "avatar": "", "discriminator": "0000" };
   }
 
   getUserIndex(user){

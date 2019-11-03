@@ -103,8 +103,12 @@ class SAVEFILE{
   }
   
   findOrRegisterUser(userId, userName, avatar, nickName, discriminator){
+    if (nickName == null)
+      nickName = userName;
+    
     if (!(userId in this.meta.users)){
       this.meta.users[userId] = {
+        "id": userId,
         "name": userName,
         "avatar": avatar,
         "nick": nickName,
