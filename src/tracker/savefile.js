@@ -51,7 +51,8 @@
  *           {
  *             url: <attachment url>
  *           }, ...
- *         ]
+ *         ],
+           ce: <call end timestamp> // only present if it's a voice/video call
  *       }, ...
  *     }, ...
  *   }
@@ -174,6 +175,10 @@ class SAVEFILE{
     
     if (discordMessage.editedTimestamp !== null){
       obj.te = discordMessage.editedTimestamp.toDate().getTime();
+    }
+
+    if (discordMessage.call !== null) {
+      obj.ce = discordMessage.call.endedTimestamp ? discordMessage.call.endedTimestamp.toDate().getTime() : null;
     }
     
     if (discordMessage.embeds.length > 0){
