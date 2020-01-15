@@ -38,7 +38,7 @@ DISCORD.setupMessageUpdateCallback(hasMoreMessages => {
       return;
     }
     
-    STATE.addDiscordChannel(info.server, info.type, info.id, info.channel);
+    STATE.addDiscordChannel(info.server, info.type, info.id, info.channel, info.topic, info.nsfw, info.position);
     
     let messages = DISCORD.getMessages();
     
@@ -88,7 +88,7 @@ STATE.onStateChanged((type, enabled) => {
     let info = DISCORD.getSelectedChannel();
     
     if (info){
-      STATE.addDiscordChannel(info.server, info.type, info.id, info.channel);
+      STATE.addDiscordChannel(info.server, info.type, info.id, info.channel, info.topic, info.nsfw, info.position);
       STATE.addDiscordMessages(info.id, DISCORD.getMessages());
     }
     else{

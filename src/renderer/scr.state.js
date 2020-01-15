@@ -69,6 +69,14 @@ var STATE = (function(){
     return FILE.getUserById(user).name;
   };
   
+  ROOT.getUserNick = function(user){
+    return FILE.getUserById(user).nick;
+  };
+  
+  ROOT.getUserDiscriminator = function(user){
+    return FILE.getUserById(user).discriminator;
+  };
+  
   // --------------------------
   // Channel list and selection
   // --------------------------
@@ -95,7 +103,10 @@ var STATE = (function(){
       "id": key,
       "name": channels[key].name,
       "server": FILE.getServer(channels[key].server),
-      "msgcount": getFilteredMessageKeys(key).length
+      "msgcount": getFilteredMessageKeys(key).length,
+      "topic": channels[key].topic,
+      "nsfw": channels[key].nsfw,
+      "position": channels[key].position,
     })).sort((ac, bc) => {
       var as = ac.server;
       var bs = bc.server;

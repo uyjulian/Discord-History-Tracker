@@ -31,6 +31,8 @@ author
 state
 id
 username
+discriminator
+nick
 timestamp
 content
 editedTimestamp
